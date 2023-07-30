@@ -23,7 +23,7 @@ float RR = 0;
 int samp0 = 0, samp1 = 0;
 int count = 0, flag1 = 0;
 int owo3 = 0, owo4 = 0;
-int inp;
+int inp = 0;
 int flag2 = 0;
 
 // auto gain control
@@ -53,9 +53,9 @@ int bt_counter = 0;
 int bt_counter1 = 0;
 
 // FFT
-int fft_data[16] = {0};
-float f_peaks[5]; // top 5 frequencies peaks in descending order
-byte sine_data[91] = { // Paste this at top of program
+int fft_data[16] = { 0 };
+float f_peaks[5] = { 0 };   // top 5 frequencies peaks in descending order
+byte sine_data[91] = {      // Paste this at top of program
     0, 4, 9, 13, 18, 22, 27, 31, 35, 40, 44, 49,
     53, 57, 62, 66, 70, 75, 79, 83, 87, 91, 96, 
     100, 104, 108, 112, 116, 120, 124, 127, 131,
@@ -70,6 +70,7 @@ byte sine_data[91] = { // Paste this at top of program
 
 //============================================
 void setup() {
+
     pinMode(6, OUTPUT);
     pinMode(5, OUTPUT);
     pinMode(4, OUTPUT);
@@ -314,14 +315,14 @@ void loop() {
 }
 
 // self-defined func.========================================================================
-void fill_RR(float *RR, float *delta_RR, int sz) {
+void fill_RR(float* RR, float* delta_RR, int sz) {
     for (int i = 0; i < sz - 1; i++) {
         delta_RR[i] = RR[i + 1] - RR[i]; // 計算RR差值 = RR[i+1]-RR[i]
     }
     return;
 }
 
-float Mean(float *RR, int sz) {
+float Mean(float* RR, int sz) {
     float sum = 0.0;
     int N = sz;
     while (sz > 0) {
@@ -331,7 +332,7 @@ float Mean(float *RR, int sz) {
     return sum / N;
 }
 
-float SDNN(float *RR, int sz) {
+float SDNN(float* RR, int sz) {
     float sum = 0.F;
     float avg = Mean(RR, sz);
     int N = sz;
@@ -346,7 +347,7 @@ float CV(float *RR, int sz) {
     return SDNN(RR, sz) / Mean(RR, sz);
 }
 
-float RMSSD(float *RR, float *delta_RR, int sz) {
+float RMSSD(float* RR, float* delta_RR, int sz) {
     float sum = 0.0;
     fill_RR(RR, delta_RR, sz);
     for (int i = 0; i < sz - 1; i++) {
@@ -356,7 +357,7 @@ float RMSSD(float *RR, float *delta_RR, int sz) {
 }
 
 /*
-float SDSD(float *RR, float *delta_RR, int sz){
+float SDSD(float* RR, float* delta_RR, int sz) {
     float sum = 0.F;
     for(int i = 0; i < sz - 1; i++) {
         sum += (delta_RR[i] - Mean(delta_RR, sz)) * (delta_RR[i] - Mean(delta_RR, sz));
@@ -365,7 +366,7 @@ float SDSD(float *RR, float *delta_RR, int sz){
 }
 */
 
-void sort(float *a, int sz) {
+void sort(float* a, int sz) {
     for (int i = 1; i < sz; i++) {
         int j = i;
         int tmp = a[j];
@@ -378,7 +379,7 @@ void sort(float *a, int sz) {
     return;
 }
 
-void delete_data(float *RR, int sz) {
+void delete_data(float* RR, int sz) {
     for (int i = DEL; i < sz - DEL; i++) {
         new_RR[i - DEL] = RR[i];
     }

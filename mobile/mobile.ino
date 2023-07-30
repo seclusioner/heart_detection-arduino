@@ -7,15 +7,15 @@
 #include <SoftwareSerial.h>
 SoftwareSerial MyBlue(9, 10);   // RX | TX
 
-#define DATA_num 32
+#define DATA_num    32
 #define SAMPLE_FREQ 4
-#define INPUT_PIN 18
-#define DEL 2
+#define INPUT_PIN   18
+#define DEL         2
 
 const int ref = 400;
 unsigned int flag = 0, bb = 0, bbo = 0;
 int owo = 0, owo1 = 0;
-int data[DATA_num] = {0};
+int data[DATA_num] = { 0 };
 int r = 0, r1 = 0;
 int v0 = 0, v1 = 0, v2 = 0, v3 = 0;
 int sum = 0;
@@ -23,14 +23,14 @@ float RR = 0;
 int samp0 = 0, samp1 = 0;
 int count = 0, flag1 = 0;
 int owo3 = 0, owo4 = 0;
-int inp;
+int inp = 0;
 int flag2 = 0;
 
 // auto gain control
 int adc_value = 0;
 int increase = 0, decrease = 0;
 int samp2 = 0, samp3 = 0;
-int adc_arry[500];
+int adc_arry[500] = { 0 };
 int adc_times = 0;
 int up = 0, down = 0;
 int gain = 2;
@@ -38,11 +38,11 @@ int gain = 2;
 //===================
 
 // RR input
-float RR_interval[DATA_num];
-float delta_RR[DATA_num - 2 * DEL];
-float new_RR[DATA_num - 2 * DEL];
+float RR_interval[DATA_num] = { 0 };
+float delta_RR[DATA_num - 2 * DEL] = { 0 };
+float new_RR[DATA_num - 2 * DEL] = { 0 };
 int index = 0;
-int HR_RR[5];
+int HR_RR[5] = { 0 };
 int HR_times = 0;
 int HR_sum = 600;
 
@@ -55,20 +55,20 @@ int bt_counter = 0;
 int bt_counter1 = 0;
 
 // FFT
-int fft_data[16] = {0};
-float f_peaks[5]; // top 5 frequencies peaks in descending order
+int fft_data[16] = { 0 };
+float f_peaks[5] = { 0 };   // top 5 frequencies peaks in descending order
 
-byte sine_data[91] = { // Paste this at top of program
-    0, 4, 9, 13, 18, 22, 27, 31, 35,
-    40, 44, 49, 53, 57, 62, 66, 70, 75,
-    79, 83, 87, 91, 96, 100, 104, 108, 112,
-    116, 120, 124, 127, 131, 135, 139, 143, 146,
-    150, 153, 157, 160, 164, 167, 171, 174, 177,
-    180, 183, 186, 189, 192, 195, 198, 201, 204,
-    206, 209, 211, 214, 216, 219, 221, 223, 225,
-    227, 229, 231, 233, 235, 236, 238, 240, 241,
-    243, 244, 245, 246, 247, 248, 249, 250, 251,
-    252, 253, 253, 254, 254, 254, 255, 255, 255, 255 
+byte sine_data[91] = {      // Paste this at top of program
+    0, 4, 9, 13, 18, 22, 27, 31, 35, 40, 44, 49,
+    53, 57, 62, 66, 70, 75, 79, 83, 87, 91, 96, 
+    100, 104, 108, 112, 116, 120, 124, 127, 131,
+    135, 139, 143, 146, 150, 153, 157, 160, 164, 
+    167, 171, 174, 177, 180, 183, 186, 189, 192, 
+    195, 198, 201, 204, 206, 209, 211, 214, 216, 
+    219, 221, 223, 225, 227, 229, 231, 233, 235, 
+    236, 238, 240, 241, 243, 244, 245, 246, 247, 
+    248, 249, 250, 251, 252, 253, 253, 254, 254, 
+    254, 255, 255, 255, 255 
 };
 
 /* ===================================== */
@@ -335,7 +335,7 @@ void priint(int x) {
     return;
 }
 
-void fill_RR(float *RR, float *delta_RR, int sz) {
+void fill_RR(float* RR, float* delta_RR, int sz) {
     for (int i = 0; i < sz - 1; i++) {
         delta_RR[i] = RR[i + 1] - RR[i]; // 計算RR差值 = RR[i+1]-RR[i]
     }
@@ -367,7 +367,7 @@ float CV(float* RR, int sz) {
     return SDNN(RR, sz) / Mean(RR, sz);
 }
 
-float RMSSD(float* RR, float *delta_RR, int sz) {
+float RMSSD(float* RR, float* delta_RR, int sz) {
     float sum = 0.F;
     fill_RR(RR, delta_RR, sz);
     for (int i = 0; i < sz - 1; i++) {
@@ -377,7 +377,7 @@ float RMSSD(float* RR, float *delta_RR, int sz) {
 }
 
 /*
-float SDSD(float* RR, float *delta_RR, int sz) {
+float SDSD(float* RR, float* delta_RR, int sz) {
     float sum = 0.0;
     for(int i = 0; i < sz - 1; i++) {
         sum += (delta_RR[i] - Mean(delta_RR, sz)) * (delta_RR[i] - Mean(delta_RR, sz));
