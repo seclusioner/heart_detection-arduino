@@ -10,4 +10,4 @@ This is the first version of the code for the non-contact pulse measurement syst
 **Engineering Team Members: Benson Tai, D.S., Yuyu378, and archman for the competition**
 *雲創盃　2023/11/02*
 
-**Code Author: D.S., Benson Tai**
+**Code Author: D.S.、Benson Tai**
