@@ -1,3 +1,12 @@
+/*
+For computer version 
+
+1. Arduino leonardo board
+2. Serial Plot
+3. Labview
+
+*/
+
 #include <SoftwareSerial.h>
 SoftwareSerial MyBlue(9, 10); // RX | TX 
 
