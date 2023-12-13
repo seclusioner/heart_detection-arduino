@@ -1,3 +1,11 @@
+/*
+Phone version (Bluetooth)
+
+1. Arduino leonardo board
+2. APP
+
+*/
+
 #include <SoftwareSerial.h>
 SoftwareSerial MyBlue(9, 10); // RX | TX 
 
